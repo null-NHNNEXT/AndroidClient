@@ -1,11 +1,10 @@
 package com.goznauk.projectnull.app;
 
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.goznauk.projectnull.app.ViewModel.ArticleListFragment;
+import com.goznauk.projectnull.app.Controller.ArticleListFragment;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -14,7 +13,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
