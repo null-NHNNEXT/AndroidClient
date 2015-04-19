@@ -1,20 +1,24 @@
 package com.goznauk.projectnull.app.View;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import com.goznauk.projectnull.app.Entity.Article;
 import com.goznauk.projectnull.app.R;
 
+import java.io.File;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-/**
- * Created by goznauk on 2015. 4. 1..
- */
+
 public class ArticleListAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
@@ -64,29 +68,90 @@ public class ArticleListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_article, null);
             holder = new ViewHolder();
-            holder.articleId = articles.get(position).getArticleId();
-            holder.testTextView = (TextView) convertView.findViewById(R.id.item_article_tv_test);
+
+            //row의 item들에 대한 click listener 구현
+            holder.articleListTitle = (TextView) convertView.findViewById(R.id.article_list_title);
+            holder.articleListTitle.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClicked(articles.get(position).getArticleId());
+                }
+            });
+            holder.articleListContent = (TextView) convertView.findViewById(R.id.article_list_content);
+            holder.articleListContent.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClicked(articles.get(position).getArticleId());
+                }
+            });
+            holder.articleListWriter = (TextView) convertView.findViewById(R.id.article_list_writer);
+            holder.articleListWriter.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClicked(articles.get(position).getArticleId());
+                }
+            });
+            holder.articleListTimeStamp = (TextView) convertView.findViewById(R.id.article_list_timestamp);
+            holder.articleListTimeStamp.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClicked(articles.get(position).getArticleId());
+                }
+            });
+            holder.articleListImage = (ImageButton) convertView.findViewById(R.id.article_list_image);
+            holder.articleListImage.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClicked(articles.get(position).getArticleId());
+                }
+            });
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.testTextView.setText(articles.get(position).getTestText());
-        holder.testTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClicked(articles.get(position).getArticleId());
-            }
-        });
+        holder.articleListTitle.setText(articles.get(position).getTitle());
+        holder.articleListContent.setText(articles.get(position).getContent());
+        holder.articleListWriter.setText(articles.get(position).getWriter().getNickname());
+        holder.articleListTimeStamp.setText(articles.get(position).getTimeStamp());
+        setTypeface(holder.articleListTitle, holder.articleListContent,
+                            holder.articleListWriter, holder.articleListTimeStamp);
+
+        //사진 불러오기
+        String imagePath = mContext.getFilesDir() + "/" + articles.get(position).getImageId();
+        File loadedImage = new File(imagePath);
+
+        //각 row의 사진 갱신해주기
+        if(loadedImage.exists()){
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            holder.articleListImage.setImageBitmap(bitmap);
+        }else{
+            /*
+                프로필 사진이 없는 경우의 default 이미지 처리
+             */
+        }
+
 
         return convertView;
     }
 
+    public void setTypeface(TextView title, TextView content, TextView writer, TextView timeStamp){
+        TypefaceFactory typefaceFactory = TypefaceFactory.getTypefaceFactory(mContext);
+        Typeface SDCrayon = typefaceFactory.getTypeface("SDCrayon");
+        title.setTypeface(SDCrayon);
+        content.setTypeface(SDCrayon);
+        writer.setTypeface(SDCrayon);
+        timeStamp.setTypeface(SDCrayon);
+    }
 
 
     static class ViewHolder {
         int articleId;
-        TextView testTextView;
+        ImageButton articleListImage;
+        TextView articleListTitle;
+        TextView articleListContent;
+        TextView articleListWriter;
+        TextView articleListTimeStamp;
     }
 }

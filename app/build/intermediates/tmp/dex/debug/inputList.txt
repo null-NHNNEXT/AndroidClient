@@ -1,0 +1,7 @@
+/Users/Henry/Documents/HumanDesignProject/AndroidClient/app/build/intermediates/classes/debug
+/Users/Henry/Documents/HumanDesignProject/AndroidClient/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-9cdb144dc9bc199a311c84819500b435e9281854.jar
+/Users/Henry/Documents/HumanDesignProject/AndroidClient/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.5-c20cfce34205008b08cf4ce300df77a1cc23d603.jar
+/Users/Henry/Documents/HumanDesignProject/AndroidClient/app/build/intermediates/pre-dexed/debug/gson-2.2.4-b643d6934af04f07542b5877effb3efa4638942f.jar
+/Users/Henry/Documents/HumanDesignProject/AndroidClient/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-6f24573cef19910711b11e0f86890ef465fe7ea7.jar
+/Users/Henry/Documents/HumanDesignProject/AndroidClient/app/build/intermediates/pre-dexed/debug/classes-c87e74bb7472d38f2fc1f2ce1aca8be8586d38fd.jar
+/Users/Henry/Documents/HumanDesignProject/AndroidClient/app/build/intermediates/pre-dexed/debug/classes-a7ae611fd858c5392c40796d7a8dc34e9ef2598f.jar

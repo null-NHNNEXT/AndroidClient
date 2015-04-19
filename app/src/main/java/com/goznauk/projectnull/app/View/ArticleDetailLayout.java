@@ -1,20 +1,19 @@
 package com.goznauk.projectnull.app.View;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.goznauk.projectnull.app.Entity.Article;
-import com.goznauk.projectnull.app.Model.ArticleListModel;
-import com.goznauk.projectnull.app.Model.SingleArticleModel;
+import com.goznauk.projectnull.app.Model.ArticleDetailModel;
 import com.goznauk.projectnull.app.Model.ModelListener;
 import com.goznauk.projectnull.app.R;
 
 /**
  * Created by goznauk on 2015. 4. 4..
  */
-public class ArticleDetailLayout extends BaseLayout implements View.OnClickListener, ModelListener<SingleArticleModel> {
+public class ArticleDetailLayout extends BaseLayout implements ModelListener<ArticleDetailModel> {
     ArticleListAdapter adapter;
     Context context;
 
@@ -23,52 +22,54 @@ public class ArticleDetailLayout extends BaseLayout implements View.OnClickListe
     }
 
     private Listener listener;
+    private TextView title;
+    private TextView writer;
+    private TextView timeStamp;
+    private TextView content;
 
     public void setListener(Listener listener) {
         this.listener = listener;
     }
-
-
-    private Article article;
-
-    private Button testButton;
-    private TextView testTextView;
 
     public ArticleDetailLayout(Context context) {
         super(context, R.layout.fragment_articledetail);
         this.context = context;
 
         Log.i("Layout", "init");
+        title = (TextView)findViewById(R.id.article_detail_title);
+        writer = (TextView)findViewById(R.id.article_detail_writer);
+        timeStamp = (TextView)findViewById(R.id.article_detail_timestamp);
+        content = (TextView)findViewById(R.id.article_detail_content);
+        setTypeface(title, writer, timeStamp, content);
 
+    }
 
-        testButton = (Button) findViewById(R.id.fragment_detail_test_btn);
-        testButton.setOnClickListener(this);
-        testTextView = (TextView) findViewById(R.id.fragment_detail_test_tv);
+    public void setTypeface(TextView title, TextView writer, TextView timeStamp, TextView content){
+        TypefaceFactory typefaceFactory = TypefaceFactory.getTypefaceFactory(context);
+        Typeface SDCrayon = typefaceFactory.getTypeface("SDCrayon");
+
+        title.setTypeface(SDCrayon);
+        writer.setTypeface(SDCrayon);
+        timeStamp.setTypeface(SDCrayon);
+        content.setTypeface(SDCrayon);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fragment_detail_test_btn:
-                if (listener != null) {
-                    listener.onTest();
-                }
-                break;
-        }
-    }
-
-    @Override
-    public void onModelUpdated(SingleArticleModel model) {
+    public void onModelUpdated(ArticleDetailModel model) {
         switch (model.getStatus()) {
-            case SingleArticleModel.LOADING:
+            case ArticleDetailModel.LOADING:
                 // TODO : Show loading animation or sth...
                 break;
 
-            case SingleArticleModel.DONE:
-                testTextView.setText("this article's ID: " + model.getArticle().getArticleId());
+            case ArticleDetailModel.DONE:
+                title.setText(model.getArticle().getTitle());
+                writer.setText(model.getArticle().getWriter().getNickname());
+                timeStamp.setText((model.getArticle().getTimeStamp()));
+                content.setText(model.getArticle().getContent());
+
                 break;
 
-            case SingleArticleModel.ERROR:
+            case ArticleDetailModel.ERROR:
 
                 break;
         }

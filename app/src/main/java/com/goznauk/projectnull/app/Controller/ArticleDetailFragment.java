@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.goznauk.projectnull.app.Model.SingleArticleModel;
+import com.goznauk.projectnull.app.Model.ArticleDetailModel;
 import com.goznauk.projectnull.app.View.ArticleDetailLayout;
 
 /**
@@ -13,7 +13,7 @@ import com.goznauk.projectnull.app.View.ArticleDetailLayout;
  */
 public class ArticleDetailFragment extends Fragment implements ArticleDetailLayout.Listener {
     private ArticleDetailLayout layout;
-    private SingleArticleModel model;
+    private ArticleDetailModel model;
 
     public static ArticleDetailFragment newInstance(int articleId) {
         ArticleDetailFragment fragment = new ArticleDetailFragment();
@@ -35,7 +35,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailLayo
             return layout.getRootView();
         }
 
-        model = new SingleArticleModel(args.getInt("articleId"));
+        model = new ArticleDetailModel(args.getInt("articleId"));
         model.setModelListener(layout);
         model.fetch();
 
