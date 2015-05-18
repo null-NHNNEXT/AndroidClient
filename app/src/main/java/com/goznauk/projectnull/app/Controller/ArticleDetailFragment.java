@@ -15,10 +15,10 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailLayo
     private ArticleDetailLayout layout;
     private ArticleDetailModel model;
 
-    public static ArticleDetailFragment newInstance(int articleId) {
+    public static ArticleDetailFragment newInstance(String articleId) {
         ArticleDetailFragment fragment = new ArticleDetailFragment();
         Bundle args = new Bundle();
-        args.putInt("articleId", articleId);
+        args.putString("articleId", articleId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -35,7 +35,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailLayo
             return layout.getRootView();
         }
 
-        model = new ArticleDetailModel(args.getInt("articleId"));
+        model = new ArticleDetailModel(getActivity().getApplicationContext(), args.getInt("articleId"));
         model.setModelListener(layout);
         model.fetch();
 

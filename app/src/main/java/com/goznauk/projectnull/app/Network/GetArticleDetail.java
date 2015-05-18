@@ -1,25 +1,25 @@
 package com.goznauk.projectnull.app.Network;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
 import com.goznauk.projectnull.app.Entity.Article;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.http.Header;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-
-
 public class GetArticleDetail {
     int articleId;
     Article selectedArticle = new Article();
+    Context context;
 
-    public GetArticleDetail(int articleId) {
+    public GetArticleDetail(Context context, int articleId) {
         this.articleId = articleId;
+        this.context = context;
     }
     private static AsyncHttpClient client = new AsyncHttpClient();
 
@@ -28,7 +28,9 @@ public class GetArticleDetail {
 
         // TODO : get Article by RESTful APIs
         try {
-
+            SharedPreferences pref = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+            String token = pref.getString("token","nothing");
+            client.addHeader("Authorization", token);
             client.get("http://127.0.0.1:7777/post/"+articleId, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

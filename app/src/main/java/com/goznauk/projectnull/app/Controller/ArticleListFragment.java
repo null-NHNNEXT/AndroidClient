@@ -30,7 +30,7 @@ public class ArticleListFragment extends Fragment implements ArticleListLayout.L
         layout.setListener(this);
 
         //model을 생성한다.
-        model = new ArticleListModel();
+        model = new ArticleListModel(getActivity().getApplicationContext());
         //model의 listener로 layout을 등록한다.
         //model과 view는 서로 모르기 때문에 controller에서 둘을 연결 시켜 주는 것임.
         model.setModelListener(layout);
@@ -52,7 +52,7 @@ public class ArticleListFragment extends Fragment implements ArticleListLayout.L
 
 
     @Override
-    public void onArticleClicked(int articleId) {
+    public void onArticleClicked(String articleId) {
         Log.i("onItemClicked", "id : " + articleId);
         // Fragment Transaction
 

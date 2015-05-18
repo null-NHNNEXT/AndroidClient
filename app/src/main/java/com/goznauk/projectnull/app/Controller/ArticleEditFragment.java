@@ -22,13 +22,13 @@ public class ArticleEditFragment extends Fragment implements ArticleEditLayout.L
     private ArticleEditModel model;
     public static final int NEWPOST = 0;
     public static final int EDITPOST = 1;
-    private static int STATUS;
+    private static int postStatus;
 
 
     //새 글을 쓰는 경우는 articleId를 받지 않고 생성
     public static ArticleEditFragment newInstance(int NEWPOSTSTATUS) {
         ArticleEditFragment fragment = new ArticleEditFragment();
-        STATUS = NEWPOSTSTATUS;
+        postStatus = NEWPOSTSTATUS;
         Bundle args = new Bundle();
         fragment.setArguments(args);
 
@@ -36,11 +36,11 @@ public class ArticleEditFragment extends Fragment implements ArticleEditLayout.L
     }
 
     //기존의 글을 수정하는 경우는 articleId를 입력 받고 생성
-    public static ArticleEditFragment newInstance(int EDITPOSTSTATUS, int articleId) {
+    public static ArticleEditFragment newInstance(int EDITPOSTSTATUS, String articleId) {
         ArticleEditFragment fragment = new ArticleEditFragment();
-        STATUS = EDITPOSTSTATUS;
+        postStatus = EDITPOSTSTATUS;
         Bundle args = new Bundle();
-        args.putInt("articleId", articleId);
+        args.putString("articleId", articleId);
         fragment.setArguments(args);
 
         return fragment;
@@ -53,9 +53,8 @@ public class ArticleEditFragment extends Fragment implements ArticleEditLayout.L
         layout = new ArticleEditLayout(getActivity());
         layout.setListener(this);
 
-        model = new ArticleEditModel();
+        model = new ArticleEditModel(getActivity().getApplicationContext());
         model.setModelListener(layout);
-        model.fetch();
 
         return layout.getRootView();
     }
@@ -66,8 +65,24 @@ public class ArticleEditFragment extends Fragment implements ArticleEditLayout.L
     }
 
     @Override
-    public void onSaveButtonClicked() {
+    public void onArticleListRefresh() {
+        Log.i("test","Create POST succeed");
+        // Fragment Transaction
 
+        Fragment articleListFragment = new ArticleListFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
+        transaction.replace(R.id.container, articleListFragment, "articleList");
+        // transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void onSaveButtonClicked(String title, String content) {
+
+        if(postStatus == NEWPOST) model.fetch(postStatus, title, content);
+        else model.fetch(postStatus, this.getArguments().getString("articleId"), title, content);
     }
 
 }

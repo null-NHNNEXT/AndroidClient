@@ -1,5 +1,7 @@
 package com.goznauk.projectnull.app.Network;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -10,6 +12,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 import java.lang.reflect.Type;
@@ -19,43 +23,76 @@ import java.util.ArrayList;
  * Created by goznauk on 2015. 4. 4..
  */
 public class GetArticleList {
-    int initialId;
-    int num;
+    String initialId;
+    Context context;
     ArrayList<Article> articles;
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    public GetArticleList(int initialId, int num) {
+    public GetArticleList(Context context, String initialId) {
         //initialId는 fetch시에는 -1로하여 처음임을 알리는 용도로 사용하며
         //append시에는 finalId로 하여
 
         this.initialId = initialId;
-        this.num = num;
+        this.context = context;
     }
 
 
-    public void execute(OnResponseListener OnResponseListener) {
-        Response response = new Response();
+    public void execute(final OnResponseListener OnResponseListener) {
+        final Response response = new Response();
 
         // TODO : if initialId = -1 -> get latest
-        if(initialId == -1) {
-            client.get("http://127.0.0.1:7777/list?initialId="+initialId, new AsyncHttpResponseHandler() {
+        if(initialId == "getLatest") {
+            SharedPreferences pref = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+            String token = pref.getString("token","nothing");
+            client.addHeader("Authorization", token);
+            client.get("http://125.209.193.18:8888/api/list/7777/all", new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    articles = new ArrayList<Article>();
+
                     String jsonData = new String(responseBody);
                     Log.i("test", "article list data : " + responseBody);
 
-                    Gson gson = new Gson();
-                    Type listType = new TypeToken<ArrayList<Article>>(){}.getType();
-                    articles = gson.fromJson(jsonData, listType);
+                    try {
+                        JSONObject jsonObject = new JSONObject(jsonData);
+                        String articleArrJson = jsonObject.getString("result");
+                        Log.i("test", articleArrJson);
+                        JSONArray jsonArr = new JSONArray(articleArrJson);
 
-                    initialId = articles.get(0).getArticleId();
+                        //article파싱
+                        for(int i = 0 ; i< jsonArr.length() ; i++){
+                            JSONObject articleJson = jsonArr.getJSONObject(i);
+                            String articleId = articleJson.getString("_id");
+                            String title = articleJson.getString("title");
+                            String penName = articleJson.getString("penName");
+                            String contents = articleJson.getString("contents");
+                            String timeStamp = articleJson.getString("ts");
+                            String image = articleJson.getString("image");
 
-                    //초기 num을 파라미터로 하여 일정 갯수의 article을 받아오지만,
-                    //article의 갯수가 num보다 적을 경우가 있을 수 있으므로 num갱신
-                    num = articles.size();
+                            Log.i("test", articleId + title + penName + contents + timeStamp + image);
+                            Article article = new Article(articleId,title, contents, penName, timeStamp, image);
+                            articles.add(article);
+                            //댓글 파싱하는 부분. 나중에 완성할 것.
+//                            String commentJson = articleJson.getString("comments");
+//                            JSONArray commentArr = new JSONArray(commentJson);
+//
+//
+//                            for(int j = 0 ; j < commentArr.length() ; j++){
+//
+//                            }
+                        }
 
+                    }catch(Exception e){
+                        Log.e("test","json parsing error" + e);
+                    }
+                    initialId = articles.get(articles.size()-1).getArticleId();
+                    Log.i("test",""+articles.size()+"!");
+                    Log.i("test","initial ID : " + initialId);
+                    response.add("initialId", initialId);
+                    response.add("articles", articles);
 
+                    OnResponseListener.onResponse(response);
 
 
                 }
@@ -66,23 +103,56 @@ public class GetArticleList {
                 }
             });
         }else{
-        // TODO : if initialId != -1 이전 article가져오기
-
-            client.get("http://127.0.0.1:7777/list?initialId="+initialId, new AsyncHttpResponseHandler() {
+        // TODO : if initialId != -1 -> initialId를 url param으로 보내고 이전 게시물 10개 받아오
+            SharedPreferences pref = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+            String token = pref.getString("token","nothing");
+            client.get("http://125.209.193.18:8888/api/list/12314/all/before/" + initialId, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     String jsonData = new String(responseBody);
-                    Log.i("test", "article list data : " + responseBody);
+                    Log.i("test", "여기다!!!!" + jsonData);
+                    Log.i("test", "initalId" + initialId);
 
-                    Gson gson = new Gson();
-                    Type listType = new TypeToken<ArrayList<Article>>(){}.getType();
-                    articles = gson.fromJson(jsonData, listType);
+                    try {
+                        JSONObject jsonObject = new JSONObject(jsonData);
+                        String articleArrJson = jsonObject.getString("result");
+                        Log.i("test", articleArrJson);
+                        JSONArray jsonArr = new JSONArray(articleArrJson);
 
-                    initialId = articles.get(0).getArticleId();
-                    num = articles.size();
+                        //article파싱
+                        for(int i = 0 ; i< jsonArr.length() ; i++){
+                            JSONObject articleJson = jsonArr.getJSONObject(i);
+                            String articleId = articleJson.getString("_id");
+                            String title = articleJson.getString("title");
+                            String penName = articleJson.getString("penName");
+                            String contents = articleJson.getString("contents");
+                            String timeStamp = articleJson.getString("ts");
+                            String image = articleJson.getString("image");
 
+                            Log.i("test", articleId + title + penName + contents + timeStamp + image);
+                            Article article = new Article(articleId,title, contents, penName, timeStamp, image);
+                            articles.add(article);
+                            //댓글 파싱하는 부분. 나중에 완성할 것.
+//                            String commentJson = articleJson.getString("comments");
+//                            JSONArray commentArr = new JSONArray(commentJson);
+//
+//
+//                            for(int j = 0 ; j < commentArr.length() ; j++){
+//
+//                            }
+                            Log.e("test","" + articles.size()+"!!");
+                            initialId = articles.get(articles.size()-1).getArticleId();
+                            Log.i("test","initial ID : " + initialId);
+                        }
 
+                    }catch(Exception e){
+                        Log.e("test","json parsing error" + e);
+                    }
 
+                    response.add("initialId", initialId);
+                    response.add("articles", articles);
+
+                    OnResponseListener.onResponse(response);
 
                 }
 
@@ -102,13 +172,15 @@ public class GetArticleList {
             articles = new ArrayList<Article>();
         }
 
-        //test
-        articles.add(new Article(0,"title","contestsDigest", new Writer(100,"nickname"),"time", "imageId"));
+//        articles.add(new Article("articleId1","title","content", "nickName","2011-12-12","profile.png"));
+//        articles.add(new Article("articleId2","title","content", "nickName","2011-12-12","profile.png"));
+//        articles.add(new Article("articleId3","title","content", "nickName","2011-12-12","profile.png"));
+//        articles.add(new Article("articleId4","title","content", "nickName","2011-12-12","profile.png"));
+//        articles.add(new Article("articleId5","title","content", "nickName","2011-12-12","profile.png"));
 
-        response.add("initialId", initialId);
-        response.add("finalId", initialId+num-1);
-        response.add("articles", articles);
-
-        OnResponseListener.onResponse(response);
+//        response.add("initialId", initialId);
+//        response.add("articles", articles);
+//
+//        OnResponseListener.onResponse(response);
     }
 }

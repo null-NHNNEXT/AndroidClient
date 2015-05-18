@@ -1,5 +1,7 @@
 package com.goznauk.projectnull.app.Model;
 
+import android.content.Context;
+
 import com.goznauk.projectnull.app.Entity.Article;
 import com.goznauk.projectnull.app.Network.*;
 
@@ -9,6 +11,7 @@ public class ArticleDetailModel extends BaseModel {
     public static final int DONE = 1;
     public static final int ERROR = -1;
 
+    private Context context;
     private int status;
 
 
@@ -21,15 +24,16 @@ public class ArticleDetailModel extends BaseModel {
 
     private Article article;
 
-    public ArticleDetailModel(int articleId) {
+    public ArticleDetailModel(Context context, int articleId) {
         this.articleId = articleId;
+        this.context = context;
     }
 
     public void fetch() {
         status = LOADING;
         update();
 
-        new GetArticleDetail(articleId).execute(new OnResponseListener() {
+        new GetArticleDetail(context, articleId).execute(new OnResponseListener() {
             @Override
             public void onResponse(Response response) {
                 try {

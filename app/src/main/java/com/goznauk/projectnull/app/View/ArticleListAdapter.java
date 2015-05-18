@@ -4,18 +4,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.goznauk.projectnull.app.Entity.Article;
 import com.goznauk.projectnull.app.R;
 
 import java.io.File;
-import java.lang.reflect.Type;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
@@ -24,8 +24,7 @@ public class ArticleListAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
 
     public interface Listener {
-        void onScrollLast();
-        void onItemClicked(int articleId);
+        void onItemClicked(String articleId);
     }
 
     private Listener listener;
@@ -58,7 +57,7 @@ public class ArticleListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return articles.get(position).getArticleId();
+        return position;
     }
 
     @Override
@@ -110,16 +109,17 @@ public class ArticleListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        WeakReference<ImageView> imageViewReference = new WeakReference<ImageView>(holder.articleListImage);
 
         holder.articleListTitle.setText(articles.get(position).getTitle());
-        holder.articleListContent.setText(articles.get(position).getContent());
-        holder.articleListWriter.setText(articles.get(position).getWriter().getNickname());
+        holder.articleListContent.setText(articles.get(position).getContents());
+        holder.articleListWriter.setText(articles.get(position).getPenName());
         holder.articleListTimeStamp.setText(articles.get(position).getTimeStamp());
         setTypeface(holder.articleListTitle, holder.articleListContent,
                             holder.articleListWriter, holder.articleListTimeStamp);
 
         //사진 불러오기
-        String imagePath = mContext.getFilesDir() + "/" + articles.get(position).getImageId();
+        String imagePath = mContext.getFilesDir() + "/" + articles.get(position).getImage();
         File loadedImage = new File(imagePath);
 
         //각 row의 사진 갱신해주기
@@ -147,7 +147,7 @@ public class ArticleListAdapter extends BaseAdapter {
 
 
     static class ViewHolder {
-        int articleId;
+        String articleId;
         ImageButton articleListImage;
         TextView articleListTitle;
         TextView articleListContent;

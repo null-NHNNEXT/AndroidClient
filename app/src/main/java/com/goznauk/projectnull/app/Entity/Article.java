@@ -1,37 +1,40 @@
 package com.goznauk.projectnull.app.Entity;
 
+import java.util.ArrayList;
+
 /**
  * Created by goznauk on 2015. 3. 27..
  */
 public class Article {
-    private int articleId;
+    private String articleId;
     private String title;
-    private String content;
-    private Writer writer;
+    private String contents;
+    private String penName;
     private String timeStamp;
-    private String imageId;
-    private String contentsDigest;
+    private String image;
+    private ArrayList<Comment> comments;
 
     public Article(){};
-    public Article(int articleId, String title, String contentsDigest,
-                        Writer writer, String timeStamp, String imageId) {
+
+    public Article(String articleId, String title, String contents,
+                        String penName, String timeStamp, String image) {
         this.articleId = articleId;
         this.title = title;
-        this.writer = writer;
-        this.contentsDigest = contentsDigest;
+        this.penName = penName;
+        this.contents = contents;
         this.timeStamp = timeStamp;
-        this.imageId = imageId;
+        this.image = image;
     }
 
 
-
-    //getter & setter
-    public int getArticleId() {
+    public String getArticleId() {
         return articleId;
     }
-    public void setArticleId(int articleId) {
+
+    public void setArticleId(String articleId) {
         this.articleId = articleId;
     }
+
     public String getTitle() {
         return title;
     }
@@ -40,20 +43,20 @@ public class Article {
         this.title = title;
     }
 
-    public String getContent() {
-        return content;
+    public String getContents() {
+        return contents;
     }
 
     public void setContents(String contents) {
-        this.content = contents;
+        this.contents = contents;
     }
 
-    public Writer getWriter() {
-        return writer;
+    public String getPenName() {
+        return penName;
     }
 
-    public void setWriter(Writer writer) {
-        this.writer = writer;
+    public void setPenName(String penName) {
+        this.penName = penName;
     }
 
     public String getTimeStamp() {
@@ -64,27 +67,11 @@ public class Article {
         this.timeStamp = timeStamp;
     }
 
-    public String getImageId() {
-        return imageId;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
-    }
-
-    public static Article getDummy() {
-        return new Article(123, "title","content",new Writer(),"timeStamp","photoId");
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getContentsDigest() {
-        return contentsDigest;
-    }
-
-    public void setContentsDigest(String contentsDigest) {
-        this.contentsDigest = contentsDigest;
+    public void setImage(String image) {
+        this.image = image;
     }
 }

@@ -1,5 +1,6 @@
 package com.goznauk.projectnull.app.Model;
 
+import android.content.Context;
 import android.util.Log;
 import com.goznauk.projectnull.app.Entity.Article;
 import com.goznauk.projectnull.app.Network.GetArticleList;
@@ -15,22 +16,19 @@ public class ArticleListModel extends BaseModel {
     public static final int DONE = 1;
     public static final int ERROR = -1;
 
-    //처음 row의 갯수와 append를 눌렀을 때 증가 되는 row의 갯수
-    public static final int NUM_INIT = 20;
-    public static final int NUM_APPEND = 10;
-
-    public static final int isINITIAL = -1;
-
     private int status;
+    private Context context;
 
-    int initialId;
-    int finalId;
+    //initialId 멤버변수를 가지고 있으면서 list관리
+    String initialId;
+
 
     private ArrayList<Article> articles;
 
-    public ArticleListModel() {
+    public ArticleListModel(Context context) {
         //ArticleListModel이 초기화 될 때 Article들을 담을 ArrayList를 생성한다.
         articles = new ArrayList<Article>();
+        this.context = context;
     }
 
     public void append() {
@@ -41,7 +39,7 @@ public class ArticleListModel extends BaseModel {
         update();
 
         //Network의 GetArticleList객체를 생성하고, OnResponseListener를 구현한다.
-        new GetArticleList(finalId, NUM_APPEND).execute(new OnResponseListener() {
+        new GetArticleList(context, initialId).execute(new OnResponseListener() {
             @Override
             public void onResponse(Response response) {
                 try {
@@ -50,7 +48,7 @@ public class ArticleListModel extends BaseModel {
                     ArrayList<Article> newArticles = (ArrayList<Article>) response.get("articles");
 
                     //newFinalId를 가져온다.
-                    int newFinalId = (Integer) response.get("finalId");
+                    String newInitialId = (String) response.get("initialId");
 
                     //기존의 데이터인 articles에 새로 추가된 newArticles를 추가한다.
                     for (Article article : newArticles) {
@@ -58,7 +56,7 @@ public class ArticleListModel extends BaseModel {
                         Log.i("???", article.getArticleId() + " : " + article.getTitle());
                     }
                     //finalId를 newFinalId로 갱신한다.
-                    finalId = newFinalId;
+                    initialId = newInitialId;
 
                     //status를 바꾸고 view를 다시 갱신한다.
                     status = DONE;
@@ -83,18 +81,17 @@ public class ArticleListModel extends BaseModel {
         //articles = new ArrayList<Article>();
 
         //Network의 GetArticleList객체를 생성하고, OnResponseListener를 구현한다.
-        new GetArticleList(isINITIAL, NUM_INIT).execute(new OnResponseListener() {
+        new GetArticleList(context, "getLatest").execute(new OnResponseListener() {
             @Override
             public void onResponse(Response response) {
                 try {
                     ArrayList<Article> newArticles = (ArrayList<Article>) response.get("articles");
-                    int newInitialId = (Integer) response.get("initialId");
-                    int newFinalId = (Integer) response.get("finalId");
+                    String newInitialId = (String) response.get("initialId");
+
                     for (Article article : newArticles) {
                         articles.add(article);
                     }
                     initialId = newInitialId;
-                    finalId = newFinalId;
 
                     status = DONE;
                     update();

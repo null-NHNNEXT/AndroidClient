@@ -18,7 +18,8 @@ public class ArticleDetailLayout extends BaseLayout implements ModelListener<Art
     Context context;
 
     public interface Listener {
-        void onTest();
+        void onArticleEdit();
+        void onDelete();
     }
 
     private Listener listener;
@@ -63,9 +64,9 @@ public class ArticleDetailLayout extends BaseLayout implements ModelListener<Art
 
             case ArticleDetailModel.DONE:
                 title.setText(model.getArticle().getTitle());
-                writer.setText(model.getArticle().getWriter().getNickname());
+                writer.setText(model.getArticle().getPenName());
                 timeStamp.setText((model.getArticle().getTimeStamp()));
-                content.setText(model.getArticle().getContent());
+                content.setText(model.getArticle().getContents());
 
                 break;
 
