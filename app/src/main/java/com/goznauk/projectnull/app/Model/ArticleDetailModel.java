@@ -1,6 +1,7 @@
 package com.goznauk.projectnull.app.Model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.goznauk.projectnull.app.Entity.Article;
 import com.goznauk.projectnull.app.Network.*;
@@ -22,39 +23,58 @@ public class ArticleDetailModel extends BaseModel {
      */
     int articleId;
 
-    private Article article;
 
-    public ArticleDetailModel(Context context, int articleId) {
-        this.articleId = articleId;
+
+    public ArticleDetailModel(Context context) {
+
         this.context = context;
     }
 
-    public void fetch() {
+    public void deleteArticle(String articleId) {
+//        status = LOADING;
+//        update();
+//
+//        new GetArticleDetail(context, articleId).execute(new OnResponseListener() {
+//            @Override
+//            public void onResponse(Response response) {
+//                try {
+//
+//                    Article newArticle = (Article) response.get("article");
+//
+//                    article = newArticle;
+//
+//                    status = DONE;
+//                    update();
+//                } catch (Exception e) {
+//                    status = ERROR;
+//                    update();
+//                }
+//            }
+//        });
+
         status = LOADING;
         update();
 
-        new GetArticleDetail(context, articleId).execute(new OnResponseListener() {
+        new DeleteArticle(context, articleId).execute(new OnResponseListener() {
             @Override
             public void onResponse(Response response) {
-                try {
+                    try{
 
-                    Article newArticle = (Article) response.get("article");
+                       status = DONE;
+                        update();
 
-                    article = newArticle;
+                    }catch(Exception e){
+                        status = ERROR;
+                        update();
 
-                    status = DONE;
-                    update();
-                } catch (Exception e) {
-                    status = ERROR;
-                    update();
+                    }
                 }
-            }
+
         });
     }
 
-    public Article getArticle() {
-        return article;
-    }
+
+
 
     public int getStatus() {
         return status;

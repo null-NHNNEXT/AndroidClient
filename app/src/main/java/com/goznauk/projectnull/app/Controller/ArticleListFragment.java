@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.goznauk.projectnull.app.Entity.Article;
 import com.goznauk.projectnull.app.Model.ArticleListModel;
 import com.goznauk.projectnull.app.R;
 import com.goznauk.projectnull.app.View.ArticleListLayout;
@@ -52,11 +54,21 @@ public class ArticleListFragment extends Fragment implements ArticleListLayout.L
 
 
     @Override
-    public void onArticleClicked(String articleId) {
-        Log.i("onItemClicked", "id : " + articleId);
+    public void onArticleClicked(Article clickedArticle) {
+        Log.i("onItemClicked", "id : " + clickedArticle.getArticleId());
         // Fragment Transaction
 
-        Fragment detailFragment = ArticleDetailFragment.newInstance(articleId);
+        Fragment detailFragment = ArticleDetailFragment.newInstance();
+
+        Bundle args = new Bundle();
+
+        args.putString("articleId", clickedArticle.getArticleId());
+        args.putString("title", clickedArticle.getTitle());
+        args.putString("content", clickedArticle.getContents());
+        args.putString("penName", clickedArticle.getPenName());
+        args.putString("timeStamp", clickedArticle.getTimeStamp());
+        args.putString("image", clickedArticle.getImage());
+        detailFragment.setArguments(args);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 

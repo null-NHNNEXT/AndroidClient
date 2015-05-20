@@ -2,12 +2,14 @@ package com.goznauk.projectnull.app.View;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.goznauk.projectnull.app.Controller.ArticleEditFragment;
+import com.goznauk.projectnull.app.Entity.Article;
 import com.goznauk.projectnull.app.Model.ArticleEditModel;
 import com.goznauk.projectnull.app.Model.ArticleListModel;
 import com.goznauk.projectnull.app.Model.ModelListener;
@@ -22,6 +24,7 @@ public class ArticleEditLayout extends BaseLayout implements ModelListener<Artic
     private EditText articleEditTitle;
     private EditText articleEditContents;
     private ProgressDialog progressDialog;
+    private Article article;
 
     public interface Listener {
         void onAddArticleImageButtonClicked();
@@ -46,6 +49,15 @@ public class ArticleEditLayout extends BaseLayout implements ModelListener<Artic
         articleImageSettingButton.setOnClickListener(this);
         articleSaveButton.setOnClickListener(this);
 
+        if(article != null){
+            articleEditTitle.setText(article.getTitle());
+            articleEditContents.setText(article.getContents());
+        }
+
+    }
+
+    public void setData(Bundle args){
+        article = new Article(args.getString("articleId"),args.getString("title"),args.getString("content"), args.getString("penName"), args.getString("timeStamp"), args.getString("image"));
     }
 
     @Override

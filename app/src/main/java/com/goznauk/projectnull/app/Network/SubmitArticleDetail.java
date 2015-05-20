@@ -1,5 +1,7 @@
 package com.goznauk.projectnull.app.Network;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.goznauk.projectnull.app.Entity.Article;
@@ -19,22 +21,23 @@ public class SubmitArticleDetail {
     private String content;
     private String articleId;
     private AsyncHttpClient client = new AsyncHttpClient();
+    private Context context;
 
     // if articleId = 0, new article
-    public SubmitArticleDetail(int postStatus, String title, String content) {
+    public SubmitArticleDetail(Context context, int postStatus, String title, String content) {
         this.postStatus = postStatus;
         this.title = title;
         this.content = content;
-
+        this.context = context;
 
     }
 
-    public SubmitArticleDetail(int postStatus, String articleId, String title, String content) {
+    public SubmitArticleDetail(Context context, int postStatus, String articleId, String title, String content) {
         this.postStatus = postStatus;
         this.title = title;
         this.content = content;
         this.articleId = articleId;
-
+        this.context = context;
     }
 
     public void executeForNewPost(OnResponseListener OnResponseListener) {
@@ -45,7 +48,11 @@ public class SubmitArticleDetail {
         params.put("contents", content);
         params.put("image", "null");
 
-        client.post("http://125.209.193.18:8888/api/post/12314", params, new AsyncHttpResponseHandler() {
+
+        SharedPreferences pref = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+        String token = pref.getString("token","nothing");
+        client.addHeader("Authorization", token);
+        client.post("http://125.209.193.18:8888/api/post", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String res = new String(responseBody);
@@ -71,7 +78,11 @@ public class SubmitArticleDetail {
         params.put("contents", content);
         params.put("image", "null");
 
-        client.put("http://125.209.193.18:8888/api/post/12314/" + articleId, params, new AsyncHttpResponseHandler() {
+
+        SharedPreferences pref = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+        String token = pref.getString("token","nothing");
+        client.addHeader("Authorization", token);
+        client.put("http://125.209.193.18:8888/api/post/" + articleId, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 

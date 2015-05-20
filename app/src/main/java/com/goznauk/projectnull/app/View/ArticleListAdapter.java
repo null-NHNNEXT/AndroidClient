@@ -24,7 +24,7 @@ public class ArticleListAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
 
     public interface Listener {
-        void onItemClicked(String articleId);
+        void onItemClicked(Article clickedArticle);
     }
 
     private Listener listener;
@@ -73,35 +73,35 @@ public class ArticleListAdapter extends BaseAdapter {
             holder.articleListTitle.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClicked(articles.get(position).getArticleId());
+                    listener.onItemClicked(articles.get(position));
                 }
             });
             holder.articleListContent = (TextView) convertView.findViewById(R.id.article_list_content);
             holder.articleListContent.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClicked(articles.get(position).getArticleId());
+                    listener.onItemClicked(articles.get(position));
                 }
             });
             holder.articleListWriter = (TextView) convertView.findViewById(R.id.article_list_writer);
             holder.articleListWriter.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClicked(articles.get(position).getArticleId());
+                    listener.onItemClicked(articles.get(position));
                 }
             });
             holder.articleListTimeStamp = (TextView) convertView.findViewById(R.id.article_list_timestamp);
             holder.articleListTimeStamp.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClicked(articles.get(position).getArticleId());
+                    listener.onItemClicked(articles.get(position));
                 }
             });
             holder.articleListImage = (ImageButton) convertView.findViewById(R.id.article_list_image);
             holder.articleListImage.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClicked(articles.get(position).getArticleId());
+                    listener.onItemClicked(articles.get(position));
                 }
             });
 

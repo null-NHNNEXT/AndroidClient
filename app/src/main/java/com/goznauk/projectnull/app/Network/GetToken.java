@@ -3,12 +3,15 @@ package com.goznauk.projectnull.app.Network;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.goznauk.projectnull.app.Entity.Article;
 import com.goznauk.projectnull.app.Entity.ResponseResult;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by Henry on 2015. 4. 28..
@@ -33,15 +36,23 @@ public class GetToken {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
-                    Log.i("test","Auth Succeed");
                     //응답으로 토큰을 받아옴
                     String jsonData = new String(responseBody);
 
-                    Log.i("test", jsonData);
-                    authResult = new Gson().fromJson(jsonData, ResponseResult.class);
-                    Log.i("test", authResult.getToken());
-                    response.add("token", authResult.getToken());
-                    onResponseListener.onResponse(response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(jsonData);
+                        String token = jsonObject.getString("result");
+                        Log.i("test", "token :" + token);
+
+                        response.add("token", token);
+                        onResponseListener.onResponse(response);
+
+                    }catch(Exception e){
+                        Log.e("test","json parsing error" + e);
+                    }
+                    //
+
+
                 }
 
                 @Override

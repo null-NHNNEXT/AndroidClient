@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.goznauk.projectnull.app.Entity.Article;
 import com.goznauk.projectnull.app.Model.ArticleEditModel;
 import com.goznauk.projectnull.app.Model.ArticleListModel;
 import com.goznauk.projectnull.app.R;
@@ -25,33 +26,35 @@ public class ArticleEditFragment extends Fragment implements ArticleEditLayout.L
     private static int postStatus;
 
 
-    //새 글을 쓰는 경우는 articleId를 받지 않고 생성
-    public static ArticleEditFragment newInstance(int NEWPOSTSTATUS) {
+    //새 글을 쓰는 경우는 article를 받지 않고 생성
+    public static ArticleEditFragment newInstance(int postStatus) {
         ArticleEditFragment fragment = new ArticleEditFragment();
-        postStatus = NEWPOSTSTATUS;
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+        ArticleEditFragment.postStatus = postStatus;
 
         return fragment;
     }
 
-    //기존의 글을 수정하는 경우는 articleId를 입력 받고 생성
-    public static ArticleEditFragment newInstance(int EDITPOSTSTATUS, String articleId) {
-        ArticleEditFragment fragment = new ArticleEditFragment();
-        postStatus = EDITPOSTSTATUS;
-        Bundle args = new Bundle();
-        args.putString("articleId", articleId);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
+//    //기존의 글을 수정하는 경우는 article를 입력 받고 생성
+//    public static ArticleEditFragment newInstance(int EDITPOSTSTATUS) {
+//        ArticleEditFragment fragment = new ArticleEditFragment();
+//        postStatus = EDITPOSTSTATUS;
+//        Bundle args = new Bundle();
+//        fragment.setArguments(args);
+//
+//        return fragment;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         layout = new ArticleEditLayout(getActivity());
+        //????
+        if(getArguments() != null)
+            layout.setData(getArguments());
+
         layout.setListener(this);
+
 
         model = new ArticleEditModel(getActivity().getApplicationContext());
         model.setModelListener(layout);

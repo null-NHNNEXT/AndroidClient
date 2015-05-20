@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +50,7 @@ public class AuthActivity extends Activity implements View.OnClickListener{
 
                 RequestParams params = new RequestParams();
                 params.put("penName", penname.getText());
-                params.put("boardId", boardId.getId());
+                params.put("boardId", boardId.getText());
                 params.put("writerId", deviceId);
                 new GetToken(params).execute(new OnResponseListener(){
                     @Override
@@ -58,7 +59,6 @@ public class AuthActivity extends Activity implements View.OnClickListener{
                             if((String) response.get("error") == null) {
                                 String token = (String) response.get("token");
                                 savePreference(token);
-
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             }else{
                                 throw new Exception();

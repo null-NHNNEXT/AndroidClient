@@ -46,18 +46,17 @@ public class GetArticleList {
             SharedPreferences pref = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
             String token = pref.getString("token","nothing");
             client.addHeader("Authorization", token);
-            client.get("http://125.209.193.18:8888/api/list/7777/all", new AsyncHttpResponseHandler() {
+            client.get("http://125.209.193.18:8888/api/list", new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     articles = new ArrayList<Article>();
 
                     String jsonData = new String(responseBody);
-                    Log.i("test", "article list data : " + responseBody);
 
                     try {
                         JSONObject jsonObject = new JSONObject(jsonData);
                         String articleArrJson = jsonObject.getString("result");
-                        Log.i("test", articleArrJson);
+                        Log.i("test", articleArrJson + "");
                         JSONArray jsonArr = new JSONArray(articleArrJson);
 
                         //article파싱
@@ -86,8 +85,9 @@ public class GetArticleList {
                     }catch(Exception e){
                         Log.e("test","json parsing error" + e);
                     }
-                    initialId = articles.get(articles.size()-1).getArticleId();
-                    Log.i("test",""+articles.size()+"!");
+                    if(articles != null)
+                        initialId = articles.get(articles.size()-1).getArticleId();
+
                     Log.i("test","initial ID : " + initialId);
                     response.add("initialId", initialId);
                     response.add("articles", articles);
@@ -106,7 +106,8 @@ public class GetArticleList {
         // TODO : if initialId != -1 -> initialId를 url param으로 보내고 이전 게시물 10개 받아오
             SharedPreferences pref = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
             String token = pref.getString("token","nothing");
-            client.get("http://125.209.193.18:8888/api/list/12314/all/before/" + initialId, new AsyncHttpResponseHandler() {
+            client.addHeader("Authorization", token);
+            client.get("http://125.209.193.18:8888/api/list/before/" + initialId, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     String jsonData = new String(responseBody);

@@ -3,6 +3,7 @@ package com.goznauk.projectnull.app.View;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.goznauk.projectnull.app.Entity.Article;
@@ -13,13 +14,14 @@ import com.goznauk.projectnull.app.R;
 /**
  * Created by goznauk on 2015. 4. 4..
  */
-public class ArticleDetailLayout extends BaseLayout implements ModelListener<ArticleDetailModel> {
+public class ArticleDetailLayout extends BaseLayout implements ModelListener<ArticleDetailModel>, View.OnClickListener {
     ArticleListAdapter adapter;
     Context context;
 
     public interface Listener {
         void onArticleEdit();
         void onDelete();
+        void onArticleListRefresh();
     }
 
     private Listener listener;
@@ -27,6 +29,8 @@ public class ArticleDetailLayout extends BaseLayout implements ModelListener<Art
     private TextView writer;
     private TextView timeStamp;
     private TextView content;
+    private Button articleDeleteButton;
+    private Button articleEditButton;
 
     public void setListener(Listener listener) {
         this.listener = listener;
@@ -41,11 +45,19 @@ public class ArticleDetailLayout extends BaseLayout implements ModelListener<Art
         writer = (TextView)findViewById(R.id.article_detail_writer);
         timeStamp = (TextView)findViewById(R.id.article_detail_timestamp);
         content = (TextView)findViewById(R.id.article_detail_content);
-        setTypeface(title, writer, timeStamp, content);
+        articleDeleteButton = (Button)findViewById(R.id.article_edit_button);
+        articleEditButton = (Button)findViewById(R.id.article_delete_button);
+
+        articleDeleteButton.setOnClickListener(this);
+        articleEditButton.setOnClickListener(this);
+
+
+
+        setTypeface(title, writer, timeStamp, content, articleDeleteButton, articleEditButton);
 
     }
 
-    public void setTypeface(TextView title, TextView writer, TextView timeStamp, TextView content){
+    public void setTypeface(TextView title, TextView writer, TextView timeStamp, TextView content, Button articleDeleteButton, Button articleEditButton){
         TypefaceFactory typefaceFactory = TypefaceFactory.getTypefaceFactory(context);
         Typeface SDCrayon = typefaceFactory.getTypeface("SDCrayon");
 
@@ -53,6 +65,20 @@ public class ArticleDetailLayout extends BaseLayout implements ModelListener<Art
         writer.setTypeface(SDCrayon);
         timeStamp.setTypeface(SDCrayon);
         content.setTypeface(SDCrayon);
+        articleDeleteButton.setTypeface(SDCrayon);
+        articleEditButton.setTypeface(SDCrayon);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.article_edit_button:
+                listener.onArticleEdit();
+                break;
+            case R.id.article_delete_button:
+                listener.onDelete();
+                break;
+        }
     }
 
     @Override
@@ -63,11 +89,9 @@ public class ArticleDetailLayout extends BaseLayout implements ModelListener<Art
                 break;
 
             case ArticleDetailModel.DONE:
-                title.setText(model.getArticle().getTitle());
-                writer.setText(model.getArticle().getPenName());
-                timeStamp.setText((model.getArticle().getTimeStamp()));
-                content.setText(model.getArticle().getContents());
 
+
+                listener.onArticleListRefresh();
                 break;
 
             case ArticleDetailModel.ERROR:

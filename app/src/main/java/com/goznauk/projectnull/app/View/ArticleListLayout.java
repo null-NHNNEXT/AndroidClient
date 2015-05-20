@@ -26,7 +26,7 @@ public class ArticleListLayout extends BaseLayout implements View.OnClickListene
 
 
     public interface Listener {
-        void onArticleClicked(String articleId);
+        void onArticleClicked(Article article);
         void onRefreshButtonClicked();
         void onScrollLast();
         void onArticleEditButtonClicked();
@@ -96,8 +96,8 @@ public class ArticleListLayout extends BaseLayout implements View.OnClickListene
 
 
     @Override
-    public void onItemClicked(String articleId) {
-        listener.onArticleClicked(articleId);
+    public void onItemClicked(Article clickedArticle) {
+        listener.onArticleClicked(clickedArticle);
     }
 
     @Override
@@ -151,14 +151,15 @@ public class ArticleListLayout extends BaseLayout implements View.OnClickListene
 
             case ArticleListModel.DONE:
                 //model에서 정상적으로 네트워크를 통해 데이터를 가져 왔을 경우 데이터를 가져옴.
-                if(articles == null || articles != model.getArticles()) {
+                if(model.getArticles() != null) {
+                    Log.i("test", "HHHHH");
+
                     articles = model.getArticles();
                     //어뎁터 생성
                     adapter = new ArticleListAdapter(context, articles);
                     //어뎁터의 listener로 layout을 등록함
                     adapter.setListener(this);
                     listView.setAdapter(adapter);
-
                 }
                 //어뎁터 갱신
                 adapter.notifyDataSetChanged();

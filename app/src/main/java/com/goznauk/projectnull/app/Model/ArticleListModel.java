@@ -87,7 +87,7 @@ public class ArticleListModel extends BaseModel {
                 try {
                     ArrayList<Article> newArticles = (ArrayList<Article>) response.get("articles");
                     String newInitialId = (String) response.get("initialId");
-
+                    articles.clear();
                     for (Article article : newArticles) {
                         articles.add(article);
                     }
