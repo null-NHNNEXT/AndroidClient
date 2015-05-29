@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.goznauk.projectnull.app.Entity.Article;
+import com.goznauk.projectnull.app.Entity.Comment;
 import com.goznauk.projectnull.app.Entity.Writer;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -26,6 +27,7 @@ public class GetArticleList {
     String initialId;
     Context context;
     ArrayList<Article> articles;
+
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
@@ -56,39 +58,53 @@ public class GetArticleList {
                     try {
                         JSONObject jsonObject = new JSONObject(jsonData);
                         String articleArrJson = jsonObject.getString("result");
-                        Log.i("test", articleArrJson + "");
-                        JSONArray jsonArr = new JSONArray(articleArrJson);
 
-                        //article파싱
-                        for(int i = 0 ; i< jsonArr.length() ; i++){
-                            JSONObject articleJson = jsonArr.getJSONObject(i);
-                            String articleId = articleJson.getString("_id");
-                            String title = articleJson.getString("title");
-                            String penName = articleJson.getString("penName");
-                            String contents = articleJson.getString("contents");
-                            String timeStamp = articleJson.getString("ts");
-                            String image = articleJson.getString("image");
+                        //article list가 없을 경우의 예외처리
+                        if(articleArrJson != null) {
+                            Log.i("test", articleArrJson + "");
+                            JSONArray jsonArr = new JSONArray(articleArrJson);
 
-                            Log.i("test", articleId + title + penName + contents + timeStamp + image);
-                            Article article = new Article(articleId,title, contents, penName, timeStamp, image);
-                            articles.add(article);
-                            //댓글 파싱하는 부분. 나중에 완성할 것.
-//                            String commentJson = articleJson.getString("comments");
-//                            JSONArray commentArr = new JSONArray(commentJson);
-//
-//
-//                            for(int j = 0 ; j < commentArr.length() ; j++){
-//
-//                            }
+                            //article파싱
+                            for (int i = 0; i < jsonArr.length(); i++) {
+                                JSONObject articleJson = jsonArr.getJSONObject(i);
+                                String articleId = articleJson.getString("_id");
+                                String title = articleJson.getString("title");
+                                String penName = articleJson.getString("penName");
+                                String contents = articleJson.getString("contents");
+                                String timeStamp = articleJson.getString("ts");
+                                String image = articleJson.getString("image");
+
+                                ArrayList<Comment> comments = new ArrayList<Comment>();
+
+
+                                //댓글 파싱
+                                String commentJson = articleJson.getString("comments");
+                                Log.i("test", "comments JSON : " +commentJson);
+                                //댓글이 없을 경우의 예외처리
+                                if (commentJson != null) {
+                                    JSONArray commentArr = new JSONArray(commentJson);
+
+                                    for (int j = 0; j < commentArr.length(); j++) {
+                                        JSONObject commentJSONObject = commentArr.getJSONObject(j);
+                                        comments.add(new Comment(commentJSONObject.getString("penName"), commentJSONObject.getString("contents")));
+                                    }
+                                }
+                                Article article = new Article(articleId, title, contents, penName, timeStamp, image, comments);
+                                articles.add(article);
+                            }
+
                         }
 
                     }catch(Exception e){
                         Log.e("test","json parsing error" + e);
                     }
+
+
                     if(articles != null)
                         initialId = articles.get(articles.size()-1).getArticleId();
 
                     Log.i("test","initial ID : " + initialId);
+
                     response.add("initialId", initialId);
                     response.add("articles", articles);
 
@@ -111,41 +127,57 @@ public class GetArticleList {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     String jsonData = new String(responseBody);
-                    Log.i("test", "여기다!!!!" + jsonData);
+
                     Log.i("test", "initalId" + initialId);
 
                     try {
                         JSONObject jsonObject = new JSONObject(jsonData);
                         String articleArrJson = jsonObject.getString("result");
                         Log.i("test", articleArrJson);
-                        JSONArray jsonArr = new JSONArray(articleArrJson);
 
-                        //article파싱
-                        for(int i = 0 ; i< jsonArr.length() ; i++){
-                            JSONObject articleJson = jsonArr.getJSONObject(i);
-                            String articleId = articleJson.getString("_id");
-                            String title = articleJson.getString("title");
-                            String penName = articleJson.getString("penName");
-                            String contents = articleJson.getString("contents");
-                            String timeStamp = articleJson.getString("ts");
-                            String image = articleJson.getString("image");
+                        //article이 null일 경우의 예외처리
+                        if(articleArrJson != null) {
+                            JSONArray jsonArr = new JSONArray(articleArrJson);
 
-                            Log.i("test", articleId + title + penName + contents + timeStamp + image);
-                            Article article = new Article(articleId,title, contents, penName, timeStamp, image);
-                            articles.add(article);
-                            //댓글 파싱하는 부분. 나중에 완성할 것.
-//                            String commentJson = articleJson.getString("comments");
-//                            JSONArray commentArr = new JSONArray(commentJson);
-//
-//
-//                            for(int j = 0 ; j < commentArr.length() ; j++){
-//
-//                            }
-                            Log.e("test","" + articles.size()+"!!");
-                            initialId = articles.get(articles.size()-1).getArticleId();
-                            Log.i("test","initial ID : " + initialId);
+                            //article파싱
+                            for (int i = 0; i < jsonArr.length(); i++) {
+                                JSONObject articleJson = jsonArr.getJSONObject(i);
+                                String articleId = articleJson.getString("_id");
+                                String title = articleJson.getString("title");
+                                String penName = articleJson.getString("penName");
+                                String contents = articleJson.getString("contents");
+                                String timeStamp = articleJson.getString("ts");
+                                String image = articleJson.getString("image");
+
+                                Log.i("test", articleId + title + penName + contents + timeStamp + image);
+
+                                ArrayList<Comment> comments = new ArrayList<Comment>();
+                                //댓글 파싱
+                                String commentJson = articleJson.getString("comments");
+                                //댓글이 null일 경우의 예외처리
+                                if(commentJson != null) {
+                                    JSONArray commentArr = new JSONArray(commentJson);
+                                    comments = new ArrayList<Comment>();
+
+                                    for (int j = 0; j < commentArr.length(); j++) {
+                                        JSONObject commentJSONObject = commentArr.getJSONObject(j);
+                                        String commentWriter = commentJSONObject.getString("penName");
+                                        String commentContents = commentJSONObject.getString("contents");
+                                        Comment comment = new Comment(commentWriter, commentContents);
+                                        comments.add(comment);
+                                    }
+                                }
+
+                                //article 리스트에 해당 article을 추가
+                                Article article = new Article(articleId, title, contents, penName, timeStamp, image, comments);
+                                articles.add(article);
+
+
+                                Log.e("test", "" + articles.size() + "!!");
+                                initialId = articles.get(articles.size() - 1).getArticleId();
+                                Log.i("test", "initial ID : " + initialId);
+                            }
                         }
-
                     }catch(Exception e){
                         Log.e("test","json parsing error" + e);
                     }

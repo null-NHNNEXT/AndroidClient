@@ -62,12 +62,8 @@ public class ArticleListFragment extends Fragment implements ArticleListLayout.L
 
         Bundle args = new Bundle();
 
-        args.putString("articleId", clickedArticle.getArticleId());
-        args.putString("title", clickedArticle.getTitle());
-        args.putString("content", clickedArticle.getContents());
-        args.putString("penName", clickedArticle.getPenName());
-        args.putString("timeStamp", clickedArticle.getTimeStamp());
-        args.putString("image", clickedArticle.getImage());
+        args.putParcelable("Article", clickedArticle);
+
         detailFragment.setArguments(args);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -82,7 +78,6 @@ public class ArticleListFragment extends Fragment implements ArticleListLayout.L
         Fragment articleEditFragment = ArticleEditFragment.newInstance(ArticleEditFragment.NEWPOST);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
         transaction.replace(R.id.container, articleEditFragment, "ArticleEdit");
         transaction.commit();
     }

@@ -15,9 +15,9 @@ import com.goznauk.projectnull.app.R;
  * Created by goznauk on 2015. 4. 4..
  */
 public class ArticleDetailLayout extends BaseLayout implements ModelListener<ArticleDetailModel>, View.OnClickListener {
-    ArticleListAdapter adapter;
-    Context context;
 
+    private Context context;
+    private Article article;
     public interface Listener {
         void onArticleEdit();
         void onDelete();
@@ -36,9 +36,10 @@ public class ArticleDetailLayout extends BaseLayout implements ModelListener<Art
         this.listener = listener;
     }
 
-    public ArticleDetailLayout(Context context) {
+    public ArticleDetailLayout(Context context, Article article) {
         super(context, R.layout.fragment_articledetail);
         this.context = context;
+        this.article = article;
 
         Log.i("Layout", "init");
         title = (TextView)findViewById(R.id.article_detail_title);
@@ -47,6 +48,12 @@ public class ArticleDetailLayout extends BaseLayout implements ModelListener<Art
         content = (TextView)findViewById(R.id.article_detail_content);
         articleDeleteButton = (Button)findViewById(R.id.article_edit_button);
         articleEditButton = (Button)findViewById(R.id.article_delete_button);
+
+        title.setText(article.getTitle());
+        writer.setText(article.getPenName());
+        timeStamp.setText(article.getTimeStamp());
+        content.setText(article.getContents());
+
 
         articleDeleteButton.setOnClickListener(this);
         articleEditButton.setOnClickListener(this);

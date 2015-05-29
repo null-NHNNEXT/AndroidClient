@@ -19,12 +19,12 @@ import com.goznauk.projectnull.app.View.ArticleDetailLayout;
 public class ArticleDetailFragment extends Fragment implements ArticleDetailLayout.Listener {
     private ArticleDetailLayout layout;
     private ArticleDetailModel model;
+    private Article article;
 
     public static ArticleDetailFragment newInstance() {
         ArticleDetailFragment fragment = new ArticleDetailFragment();
 
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -32,13 +32,11 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailLayo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        layout = new ArticleDetailLayout(getActivity());
+        Article article = this.getArguments().getParcelable("Article");
+        layout = new ArticleDetailLayout(getActivity(), article);
+
         layout.setListener(this);
 
-        Bundle args = getArguments();
-        if (args == null) {
-            return layout.getRootView();
-        }
 
         model = new ArticleDetailModel(getActivity().getApplicationContext());
         model.setModelListener(layout);
@@ -77,7 +75,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailLayo
 
     public void onArticleListRefresh() {
         // Fragment Transaction
-        Log.i("test","hi");
+
         Fragment articleListFragment = new ArticleListFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

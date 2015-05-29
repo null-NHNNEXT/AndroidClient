@@ -52,20 +52,24 @@ public class AuthActivity extends Activity implements View.OnClickListener{
                 params.put("penName", penname.getText());
                 params.put("boardId", boardId.getText());
                 params.put("writerId", deviceId);
+
                 new GetToken(params).execute(new OnResponseListener(){
                     @Override
                     public void onResponse(Response response) {
                         try {
+
                             if((String) response.get("error") == null) {
+
                                 String token = (String) response.get("token");
                                 savePreference(token);
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             }else{
+
                                 throw new Exception();
                             }
                         } catch (Exception e) {
                             //네트워크 연결 실패시에 처리
-                            e.printStackTrace();
+                            Log.i("test", "Token 발행 실패");
                         }
                     }
                 });

@@ -10,10 +10,13 @@ import android.widget.EditText;
 
 import com.goznauk.projectnull.app.Controller.ArticleEditFragment;
 import com.goznauk.projectnull.app.Entity.Article;
+import com.goznauk.projectnull.app.Entity.Comment;
 import com.goznauk.projectnull.app.Model.ArticleEditModel;
 import com.goznauk.projectnull.app.Model.ArticleListModel;
 import com.goznauk.projectnull.app.Model.ModelListener;
 import com.goznauk.projectnull.app.R;
+
+import java.util.ArrayList;
 
 
 public class ArticleEditLayout extends BaseLayout implements ModelListener<ArticleEditModel>, View.OnClickListener {
@@ -57,7 +60,7 @@ public class ArticleEditLayout extends BaseLayout implements ModelListener<Artic
     }
 
     public void setData(Bundle args){
-        article = new Article(args.getString("articleId"),args.getString("title"),args.getString("content"), args.getString("penName"), args.getString("timeStamp"), args.getString("image"));
+        article = new Article(args.getString("articleId"),args.getString("title"),args.getString("content"), args.getString("penName"), args.getString("timeStamp"), args.getString("image"), new ArrayList<Comment>());
     }
 
     @Override
