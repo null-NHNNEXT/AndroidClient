@@ -24,7 +24,7 @@ import java.util.UUID;
 public class AuthActivity extends Activity implements View.OnClickListener{
 
     private Button boardIdInputButton;
-    private EditText penname;
+    private EditText penName;
     private EditText boardId;
     private String deviceId;
 
@@ -35,7 +35,7 @@ public class AuthActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.activity_auth);
 
         boardIdInputButton = (Button)findViewById(R.id.board_id_input_button);
-        penname = (EditText)findViewById(R.id.penname);
+        penName = (EditText)findViewById(R.id.penname);
         boardId = (EditText)findViewById(R.id.board_id);
         deviceId = UUID.randomUUID().toString();
 
@@ -49,7 +49,7 @@ public class AuthActivity extends Activity implements View.OnClickListener{
             case R.id.board_id_input_button:
 
                 RequestParams params = new RequestParams();
-                params.put("penName", penname.getText());
+                params.put("penName", penName.getText());
                 params.put("boardId", boardId.getText());
                 params.put("writerId", deviceId);
 
@@ -61,7 +61,7 @@ public class AuthActivity extends Activity implements View.OnClickListener{
                             if((String) response.get("error") == null) {
 
                                 String token = (String) response.get("token");
-                                savePreference(token);
+                                savePreference(token, penName.getText().toString());
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             }else{
 
@@ -78,10 +78,11 @@ public class AuthActivity extends Activity implements View.OnClickListener{
 
     }
 
-    private void savePreference(String token){
+    private void savePreference(String token, String penName){
             SharedPreferences pref = getSharedPreferences("auth", MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("token", token);
+            editor.putString("penName", penName);
             editor.commit();
     }
 }

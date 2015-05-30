@@ -33,7 +33,7 @@ public class DeleteArticle {
         try {
             SharedPreferences pref = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
             String token = pref.getString("token","nothing");
-            Log.i("test",token);
+            Log.i("test",articleId+"!!!!");
             client.addHeader("Authorization", token);
             client.delete("http://125.209.193.18:8888/api/post/" + articleId, new AsyncHttpResponseHandler() {
                 @Override

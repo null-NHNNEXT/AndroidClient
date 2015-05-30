@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId "com.goznauk.projectnull.app"
-        minSdkVersion 11
+        minSdkVersion 16
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -42,4 +42,5 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.0'
     compile 'com.loopj.android:android-async-http:1.4.5'
     compile project(':gson-2.2.4')
+    compile files('/Users/Henry/Documents/HumanDesignProject/AndroidClient/org.eclipse.paho.client.mqttv3.jar')
 }

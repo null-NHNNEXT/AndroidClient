@@ -4,57 +4,59 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.google.gson.Gson;
-
-import com.goznauk.projectnull.app.Entity.Article;
+import com.goznauk.projectnull.app.Entity.Comment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 
-public class GetArticleDetail {
-    int articleId;
-    Article selectedArticle = new Article();
-    Context context;
+/**
+ * Created by Henry on 2015. 5. 29..
+ */
+public class SaveComment {
 
-    public GetArticleDetail(Context context, int articleId) {
-        this.articleId = articleId;
+    private AsyncHttpClient client = new AsyncHttpClient();
+    private Comment comment;
+    private Context context;
+    private String articleId;
+
+    public SaveComment(Context context, String articleId, Comment comment){
         this.context = context;
+        this.articleId = articleId;
+        this.comment = comment;
     }
-    private static AsyncHttpClient client = new AsyncHttpClient();
 
-    public void execute(OnResponseListener onResponseListener) {
-        Response response = new Response();
+    public void execute(final OnResponseListener onResponseListener) {
+        final Response response = new Response();
+        RequestParams params = new RequestParams();
+        params.put("contents", comment.getContents());
 
         // TODO : get Article by RESTful APIs
         try {
             SharedPreferences pref = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
             String token = pref.getString("token","nothing");
             client.addHeader("Authorization", token);
-            client.get("http://127.0.0.1:7777/post/"+articleId, new AsyncHttpResponseHandler() {
+            client.post("http://125.209.193.18:8888/api/post/" + articleId + "/comment",params, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    String jsonData = new String(responseBody);
-                    Log.i("test", "article list data : " + responseBody);
-
-                    Gson gson = new Gson();
-                    selectedArticle = gson.fromJson(jsonData, Article.class);
+                    Log.i("test", "Saveing Comment Succeed!");
 
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Log.i("test", "Saving Comment article failed");
 
                 }
             });
 
-            //
+
         } catch (Exception e) {
-            // if article not exists...
-            e.printStackTrace();
-            response.add("article", selectedArticle);
+            Log.i("test", "error : " + e);
         }
 
         onResponseListener.onResponse(response);
     }
+
 }

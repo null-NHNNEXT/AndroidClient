@@ -37,6 +37,13 @@
         <dex dex="/Users/Henry/Documents/HumanDesignProject/AndroidClient/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-6f24573cef19910711b11e0f86890ef465fe7ea7.jar" />
     </item>
     <item
+        jar="/Users/Henry/Documents/HumanDesignProject/AndroidClient/org.eclipse.paho.client.mqttv3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e4e7064b9cd19e5127cb730fe1493e3dd3a93e17">
+        <dex dex="/Users/Henry/Documents/HumanDesignProject/AndroidClient/app/build/intermediates/pre-dexed/debug/org.eclipse.paho.client.mqttv3-d985368f99d25a70b2cd7f5d9437527210a85f65.jar" />
+    </item>
+    <item
         jar="/Users/Henry/Documents/HumanDesignProject/AndroidClient/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"

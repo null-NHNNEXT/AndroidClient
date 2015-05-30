@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.goznauk.projectnull.app.Entity.Article;
+import com.goznauk.projectnull.app.Entity.Comment;
 import com.goznauk.projectnull.app.Model.ArticleDetailModel;
 import com.goznauk.projectnull.app.R;
 import com.goznauk.projectnull.app.View.ArticleDetailLayout;
@@ -72,6 +73,10 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailLayo
 
     }
 
+    @Override
+    public void onCommentSave(String articleId, Comment comment) {
+        model.saveComment(articleId, comment);
+    }
 
     public void onArticleListRefresh() {
         // Fragment Transaction
@@ -79,9 +84,9 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailLayo
         Fragment articleListFragment = new ArticleListFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
         transaction.replace(R.id.container, articleListFragment, "articleList");
         // transaction.addToBackStack(null);
         transaction.commit();
+
     }
 }

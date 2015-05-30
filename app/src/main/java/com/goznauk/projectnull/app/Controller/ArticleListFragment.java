@@ -63,7 +63,7 @@ public class ArticleListFragment extends Fragment implements ArticleListLayout.L
         Bundle args = new Bundle();
 
         args.putParcelable("Article", clickedArticle);
-
+        args.putString("articleId", clickedArticle.getArticleId());
         detailFragment.setArguments(args);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

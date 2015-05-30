@@ -15,6 +15,9 @@ public class Comment implements Parcelable{
         this.writer = wrtier;
         this.contents = contents;
     }
+    public Comment(String contents){
+        this.contents = contents;
+    }
     public Comment(Parcel in){
         super();
         readFromParcel(in);

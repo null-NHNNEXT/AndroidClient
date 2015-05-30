@@ -152,7 +152,6 @@ public class ArticleListLayout extends BaseLayout implements View.OnClickListene
             case ArticleListModel.DONE:
                 //model에서 정상적으로 네트워크를 통해 데이터를 가져 왔을 경우 데이터를 가져옴.
                 if(model.getArticles() != null) {
-                    Log.i("test", "HHHHH");
 
                     articles = model.getArticles();
                     //어뎁터 생성

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.goznauk.projectnull.app.Entity.Article;
+import com.goznauk.projectnull.app.Entity.Comment;
 import com.goznauk.projectnull.app.Network.*;
 
 
@@ -11,6 +12,8 @@ public class ArticleDetailModel extends BaseModel {
     public static final int LOADING = 0;
     public static final int DONE = 1;
     public static final int ERROR = -1;
+    public static final int COMMENT_DONE = 2;
+    public static final int COMMENT_ERROR = -2;
 
     private Context context;
     private int status;
@@ -74,6 +77,23 @@ public class ArticleDetailModel extends BaseModel {
     }
 
 
+    public void saveComment(String articleId, Comment comment){
+        status = LOADING;
+        update();
+
+        new SaveComment(context, articleId,comment).execute(new OnResponseListener() {
+            @Override
+            public void onResponse(Response response) {
+                try{
+                    status = COMMENT_DONE;
+                    update();
+                }catch (Exception e){
+                    status = COMMENT_ERROR;
+                    update();
+                }
+            }
+        });
+    }
 
 
     public int getStatus() {
