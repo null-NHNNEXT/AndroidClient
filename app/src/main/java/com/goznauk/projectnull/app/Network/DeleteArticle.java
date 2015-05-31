@@ -39,13 +39,13 @@ public class DeleteArticle {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     Log.i("test","Deleteing article Succeed!");
-
+                    onResponseListener.onResponse(response);
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                     Log.i("test","Deleteing article failed");
-
+                    onResponseListener.onResponse(response);
                 }
             });
 
@@ -54,6 +54,6 @@ public class DeleteArticle {
             Log.i("test", "error : " + e);
         }
 
-        onResponseListener.onResponse(response);
+
     }
 }

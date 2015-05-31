@@ -105,6 +105,10 @@ public class ArticleListAdapter extends BaseAdapter {
 //                }
 //            });
 
+            setTypeface(holder.articleListTitle, holder.articleListContent,
+                    holder.articleListWriter, holder.articleListTimeStamp);
+
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -115,8 +119,6 @@ public class ArticleListAdapter extends BaseAdapter {
         holder.articleListContent.setText(articles.get(position).getContents());
         holder.articleListWriter.setText(articles.get(position).getPenName());
         holder.articleListTimeStamp.setText(articles.get(position).getTimeStamp());
-        setTypeface(holder.articleListTitle, holder.articleListContent,
-                            holder.articleListWriter, holder.articleListTimeStamp);
 
 //        //사진 불러오기
 //        String imagePath = mContext.getFilesDir() + "/" + articles.get(position).getImage();

@@ -81,6 +81,7 @@ public class AuthActivity extends Activity implements View.OnClickListener{
     private void savePreference(String token, String penName, String boardId){
             SharedPreferences pref = getSharedPreferences("auth", MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
+            editor.putString("UUID", deviceId);
             editor.putString("token", token);
             editor.putString("penName", penName);
             editor.putString("boardId", boardId);

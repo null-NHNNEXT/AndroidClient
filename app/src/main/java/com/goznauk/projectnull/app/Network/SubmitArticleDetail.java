@@ -40,8 +40,8 @@ public class SubmitArticleDetail {
         this.context = context;
     }
 
-    public void executeForNewPost(OnResponseListener OnResponseListener) {
-        Response response = new Response();
+    public void executeForNewPost(final OnResponseListener onResponseListener) {
+        final Response response = new Response();
 
         RequestParams params = new RequestParams();
         params.put("title", title);
@@ -57,17 +57,20 @@ public class SubmitArticleDetail {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String res = new String(responseBody);
                 Log.i("test", "POST Succeed : " + res);
+                onResponseListener.onResponse(response);
+
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 String res = new String(responseBody);
                 Log.i("test", "POST failed : " + res);
+                onResponseListener.onResponse(response);
+
             }
 
         });
 
-        OnResponseListener.onResponse(response);
     }
 
     public void executeFormerPost(OnResponseListener OnResponseListener) {

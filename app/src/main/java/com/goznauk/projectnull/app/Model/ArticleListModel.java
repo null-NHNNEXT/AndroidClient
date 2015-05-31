@@ -75,7 +75,7 @@ public class ArticleListModel extends BaseModel {
         //status를 LOADING으로 바꾸고 view갱신.
         status = LOADING;
         update();
-        Log.i("test","!!!!?");
+
 
 
         //articles = new ArrayList<Article>();

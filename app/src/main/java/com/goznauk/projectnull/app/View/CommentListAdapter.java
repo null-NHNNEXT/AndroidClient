@@ -70,6 +70,8 @@ public class CommentListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_comment, null);
             holder = new ViewHolder();
+            setTypeface(holder.penName, holder.comment, holder.deleteCommentButton);
+
 
             convertView.setTag(holder);
         } else {
@@ -81,7 +83,6 @@ public class CommentListAdapter extends BaseAdapter {
         holder.comment.setText(comments.get(position).getContents());
         holder.deleteCommentButton = (Button) convertView.findViewById(R.id.comment_delete_button);
 
-        setTypeface(holder.penName, holder.comment, holder.deleteCommentButton);
 
 
 

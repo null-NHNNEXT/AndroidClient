@@ -91,6 +91,18 @@ public class GetArticleList {
                                 }
                                 Article article = new Article(articleId, title, contents, penName, timeStamp, image, comments);
                                 articles.add(article);
+
+                                if(articles != null && articles.size() != 0)
+                                    initialId = articles.get(articles.size()-1).getArticleId();
+
+                                Log.i("test","initial ID : " + initialId);
+
+                                response.add("initialId", initialId);
+                                response.add("articles", articles);
+
+                                OnResponseListener.onResponse(response);
+
+
                             }
 
                         }
@@ -99,16 +111,6 @@ public class GetArticleList {
                         Log.e("test","json parsing error" + e);
                     }
 
-
-                    if(articles != null && articles.size() != 0)
-                        initialId = articles.get(articles.size()-1).getArticleId();
-
-                    Log.i("test","initial ID : " + initialId);
-
-                    response.add("initialId", initialId);
-                    response.add("articles", articles);
-
-                    OnResponseListener.onResponse(response);
 
 
                 }
