@@ -48,11 +48,11 @@ public class ArticleEditFragment extends Fragment implements ArticleEditLayout.L
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        layout = new ArticleEditLayout(getActivity());
-        //????
-        if(getArguments() != null)
-            layout.setData(getArguments());
-
+        if(getArguments() == null) {
+            layout = new ArticleEditLayout(getActivity());
+        }else {
+            layout = new ArticleEditLayout(getActivity(), getArguments());
+        }
         layout.setListener(this);
 
 
@@ -77,7 +77,7 @@ public class ArticleEditFragment extends Fragment implements ArticleEditLayout.L
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         transaction.replace(R.id.container, articleListFragment, "articleList");
-        // transaction.addToBackStack(null);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 

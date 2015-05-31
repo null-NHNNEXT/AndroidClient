@@ -15,152 +15,92 @@
         android:background="@drawable/topbackground"
         />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="내 프로필 사진"
+        android:id="@+id/my_profile_textview"
+        android:gravity="center"
+        android:typeface="normal"
+        android:textSize="30dp"
+        android:textColor="#ffffffff"
+        android:layout_marginTop="35dp" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="3"
+        android:layout_marginTop="15dp"
+        android:gravity="center">
 
         <ImageButton
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:id="@+id/profile_image"
-            android:src="@drawable/ic_launcher"
-            android:layout_gravity="center_vertical" />
+            android:src="@drawable/default_profile"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitCenter"
+            android:background="#00ffffff" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+    </LinearLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="25dp">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="필명"
-                    android:id="@+id/nickname"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:textSize="20dp"
-                    android:textColor="#ffffffff" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:text="사진 바꾸기"
+            android:id="@+id/profile_image_setting_textview"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textSize="30sp"
+            android:textColor="#ff90ffb6"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp" />
 
-                <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/set_nickname_button"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/eraser"
-                    android:layout_margin="10dp"
-                    android:background="#00ffffff"
-                    android:scaleType="fitCenter" />
-            </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="변경"
+            android:id="@+id/profile_image_setting_button"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="#00ffffff"
+            android:textColor="#ff9eaeff"
+            android:textSize="30dp" />
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-               >
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="사진 바꾸기"
-                    android:id="@+id/profile_image_setting_textview"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:textSize="20sp"
-                    android:textColor="#ffffffff" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Go"
-                    android:id="@+id/profile_image_setting_button"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="10dp"
-                    android:background="#00ffffff"
-                    android:textColor="#ffffffff" />
-
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="3">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="60dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="내가 쓴 글 보기"
-                android:id="@+id/show_my_article_textview"
-                android:layout_weight="1"
-                android:layout_marginLeft="20dp"
-                android:textSize="20sp"
-                android:textColor="#ffffffff" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Go"
-                android:id="@+id/show_my_article_button"
-                android:layout_margin="10dp"
-                android:background="#00ffffff"
-                android:textColor="#ffffffff" />
-        </LinearLayout>
+        android:layout_weight="3"
+        >
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
-            android:layout_marginLeft="20dp">
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="내가 쓴 댓글 보기"
-                android:id="@+id/show_my_comment_textview"
-                android:layout_weight="1"
-                android:textSize="20sp"
-                android:textColor="#ffffffff" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Go"
-                android:id="@+id/show_my_comment_button"
-                android:layout_margin="10dp"
-                android:background="#00ffffff"
-                android:textColor="#ffffffff" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="60dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="내가 쓴 글에 새 소식이            있을 때 알림 받기"
+                android:text="새글 알림 받기"
                 android:id="@+id/push_setting_textview"
                 android:layout_weight="1"
                 android:layout_marginLeft="20dp"
-                android:textSize="20sp"
-                android:textColor="#ffffffff" />
+                android:textSize="30sp"
+                android:textColor="#ffffa1b8"
+                android:layout_gravity="center_vertical" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -169,7 +109,8 @@
                 android:id="@+id/push_setting_button"
                 android:layout_margin="10dp"
                 android:background="#00ffffff"
-                android:textColor="#ffffffff" />
+                android:textColor="#ff9eaeff"
+                android:textSize="30dp" />
         </LinearLayout>
     </LinearLayout>
 

@@ -1,6 +1,9 @@
 package com.goznauk.projectnull.app.Controller;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Messenger;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -10,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.goznauk.projectnull.app.Entity.Article;
+import com.goznauk.projectnull.app.MQTT.MQTTservice;
 import com.goznauk.projectnull.app.Model.ArticleListModel;
 import com.goznauk.projectnull.app.R;
 import com.goznauk.projectnull.app.View.ArticleListLayout;
@@ -21,8 +25,6 @@ public class ArticleListFragment extends Fragment implements ArticleListLayout.L
     private ArticleListLayout layout;
     private ArticleListModel model;
 
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -48,6 +50,8 @@ public class ArticleListFragment extends Fragment implements ArticleListLayout.L
         //controller는 view의 listener로, view가 어떤 이벤트를 받으면 그에 대한 처리 방법을 제공한다.
         //역시, model의 listener인 view역시 model이 어떤 변화가 있으면 그에 대한 처리를 하여 view를 뿌리게 된다.
 
+
+
         return layout.getRootView();
     }
 
@@ -69,7 +73,7 @@ public class ArticleListFragment extends Fragment implements ArticleListLayout.L
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         transaction.replace(R.id.container, detailFragment, "Detail");
-        // transaction.addToBackStack(null);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -79,6 +83,7 @@ public class ArticleListFragment extends Fragment implements ArticleListLayout.L
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.replace(R.id.container, articleEditFragment, "ArticleEdit");
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -89,6 +94,7 @@ public class ArticleListFragment extends Fragment implements ArticleListLayout.L
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         transaction.replace(R.id.container, settingFragment, "Setting");
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 

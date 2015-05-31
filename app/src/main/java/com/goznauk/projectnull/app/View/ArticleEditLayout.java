@@ -2,11 +2,13 @@ package com.goznauk.projectnull.app.View;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.goznauk.projectnull.app.Controller.ArticleEditFragment;
 import com.goznauk.projectnull.app.Entity.Article;
@@ -40,7 +42,24 @@ public class ArticleEditLayout extends BaseLayout implements ModelListener<Artic
         this.listener = listener;
     }
 
+    public ArticleEditLayout(Context context, Bundle contentInfo) {
+        super(context, R.layout.fragment_articleedit);
+        this.context = context;
 
+        articleImageSettingButton = (Button)findViewById(R.id.article_edit_imagesetting_button);
+        articleSaveButton = (Button)findViewById(R.id.article_edit_save_button);
+        articleEditTitle = (EditText)findViewById(R.id.article_edit_title);
+        articleEditContents = (EditText)findViewById(R.id.article_edit_content);
+        articleImageSettingButton.setOnClickListener(this);
+        articleSaveButton.setOnClickListener(this);
+
+        setTypeface(articleImageSettingButton, articleSaveButton);
+
+        articleEditTitle.setText(contentInfo.getString("title"));
+        articleEditContents.setText(contentInfo.getString("content"));
+
+
+    }
     public ArticleEditLayout(Context context) {
         super(context, R.layout.fragment_articleedit);
         this.context = context;
@@ -52,15 +71,20 @@ public class ArticleEditLayout extends BaseLayout implements ModelListener<Artic
         articleImageSettingButton.setOnClickListener(this);
         articleSaveButton.setOnClickListener(this);
 
-        if(article != null){
-            articleEditTitle.setText(article.getTitle());
-            articleEditContents.setText(article.getContents());
-        }
-
+        setTypeface(articleImageSettingButton, articleSaveButton);
     }
 
     public void setData(Bundle args){
         article = new Article(args.getString("articleId"),args.getString("title"),args.getString("content"), args.getString("penName"), args.getString("timeStamp"), args.getString("image"), new ArrayList<Comment>());
+    }
+
+    public void setTypeface(Button articleImageSettingButton, Button articleSaveButton){
+
+        TypefaceFactory typefaceFactory = TypefaceFactory.getTypefaceFactory(context);
+        Typeface SDCrayon = typefaceFactory.getTypeface("SDCrayon");
+
+        articleImageSettingButton.setTypeface(SDCrayon);
+        articleSaveButton.setTypeface(SDCrayon);
     }
 
     @Override

@@ -61,7 +61,7 @@ public class AuthActivity extends Activity implements View.OnClickListener{
                             if((String) response.get("error") == null) {
 
                                 String token = (String) response.get("token");
-                                savePreference(token, penName.getText().toString());
+                                savePreference(token, penName.getText().toString(), boardId.getText().toString());
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             }else{
 
@@ -78,11 +78,12 @@ public class AuthActivity extends Activity implements View.OnClickListener{
 
     }
 
-    private void savePreference(String token, String penName){
+    private void savePreference(String token, String penName, String boardId){
             SharedPreferences pref = getSharedPreferences("auth", MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("token", token);
             editor.putString("penName", penName);
+            editor.putString("boardId", boardId);
             editor.commit();
     }
 }

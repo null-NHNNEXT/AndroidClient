@@ -47,18 +47,20 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailLayo
 
 
     @Override
-    public void onArticleEdit() {
-        Bundle args = this.getArguments();
+    public void onArticleEdit(String title, String content) {
 
-
-        callEditArticleFragment(args);
+        callEditArticleFragment(title, content);
     }
 
-    public void callEditArticleFragment(Bundle args){
+    public void callEditArticleFragment(String title, String content){
+        Bundle contentInfo = new Bundle();
+        contentInfo.putString("title", title);
+        contentInfo.putString("content", content);
         Fragment articleEditFragment = ArticleEditFragment.newInstance(ArticleEditFragment.EDITPOST);
-        articleEditFragment.setArguments(args);
+        articleEditFragment.setArguments(contentInfo);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.container, articleEditFragment, "ArticleEdit");
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -85,7 +87,7 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailLayo
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.replace(R.id.container, articleListFragment, "articleList");
-        // transaction.addToBackStack(null);
+        transaction.addToBackStack(null);
         transaction.commit();
 
     }

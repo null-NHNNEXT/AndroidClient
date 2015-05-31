@@ -97,13 +97,13 @@ public class ArticleListAdapter extends BaseAdapter {
                     listener.onItemClicked(articles.get(position));
                 }
             });
-            holder.articleListImage = (ImageButton) convertView.findViewById(R.id.article_list_image);
-            holder.articleListImage.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    listener.onItemClicked(articles.get(position));
-                }
-            });
+//            holder.articleListImage = (ImageButton) convertView.findViewById(R.id.article_list_image);
+//            holder.articleListImage.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View v) {
+//                    listener.onItemClicked(articles.get(position));
+//                }
+//            });
 
             convertView.setTag(holder);
         } else {
@@ -118,19 +118,19 @@ public class ArticleListAdapter extends BaseAdapter {
         setTypeface(holder.articleListTitle, holder.articleListContent,
                             holder.articleListWriter, holder.articleListTimeStamp);
 
-        //사진 불러오기
-        String imagePath = mContext.getFilesDir() + "/" + articles.get(position).getImage();
-        File loadedImage = new File(imagePath);
-
-        //각 row의 사진 갱신해주기
-        if(loadedImage.exists()){
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-            holder.articleListImage.setImageBitmap(bitmap);
-        }else{
-            /*
-                프로필 사진이 없는 경우의 default 이미지 처리
-             */
-        }
+//        //사진 불러오기
+//        String imagePath = mContext.getFilesDir() + "/" + articles.get(position).getImage();
+//        File loadedImage = new File(imagePath);
+//
+//        //각 row의 사진 갱신해주기
+//        if(loadedImage.exists()){
+//            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+//            holder.articleListImage.setImageBitmap(bitmap);
+//        }else{
+//            /*
+//                프로필 사진이 없는 경우의 default 이미지 처리
+//             */
+//        }
 
 
         return convertView;

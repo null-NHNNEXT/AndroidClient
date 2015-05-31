@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -78,22 +79,26 @@ public class CommentListAdapter extends BaseAdapter {
         holder.penName.setText(comments.get(position).getWriter());
         holder.comment = (TextView)convertView.findViewById(R.id.row_comment);
         holder.comment.setText(comments.get(position).getContents());
-        setTypeface(holder.penName, holder.comment);
+        holder.deleteCommentButton = (Button) convertView.findViewById(R.id.comment_delete_button);
+
+        setTypeface(holder.penName, holder.comment, holder.deleteCommentButton);
 
 
 
         return convertView;
     }
 
-    public void setTypeface(TextView penName, TextView comment){
+    public void setTypeface(TextView penName, TextView comment, Button deleteCommentButton){
         TypefaceFactory typefaceFactory = TypefaceFactory.getTypefaceFactory(mContext);
         Typeface SDCrayon = typefaceFactory.getTypeface("SDCrayon");
         penName.setTypeface(SDCrayon);
         comment.setTypeface(SDCrayon);
+        deleteCommentButton.setTypeface(SDCrayon);
         }
 
     static class ViewHolder {
         TextView penName;
         TextView comment;
+        Button deleteCommentButton;
     }
 }

@@ -11,8 +11,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="title"
         android:id="@+id/article_detail_title"
-        android:textColor="#ffffffff"
-        android:textSize="30dp" />
+        android:textColor="#ffffa3c0"
+        android:textSize="40dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -35,7 +37,7 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 >
 
                 <TextView
@@ -44,9 +46,11 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="writer"
                     android:id="@+id/article_detail_writer"
-                    android:layout_weight="3"
-                    android:textColor="#ffffffff"
-                    android:textSize="20dp" />
+                    android:layout_weight="1"
+                    android:textColor="#ff75ff89"
+                    android:textSize="30dp"
+                    android:paddingLeft="20dp"
+                    android:gravity="clip_vertical" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -55,8 +59,9 @@
                     android:text="time stamp"
                     android:id="@+id/article_detail_timestamp"
                     android:layout_weight="1"
-                    android:textColor="#ffffffff"
-                    android:textSize="20dp" />
+                    android:textColor="#ff568aff"
+                    android:textSize="15dp"
+                    android:gravity="bottom" />
 
             </LinearLayout>
 
@@ -67,27 +72,44 @@
                 android:id="@+id/article_detail_content"
                 android:layout_weight="1"
                 android:textColor="#ffffffff"
-                android:textSize="20dp" />
+                android:textSize="30dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:gravity="center_vertical">
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_height="fill_parent"
+                    android:layout_height="40dp"
                     android:id="@+id/comment_edit_text"
                     android:layout_weight="9"
-                    android:textColor="#ffffffff" />
+                    android:textColor="#ffffffff"
+                    android:background="@drawable/topbackground"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:hint="댓글 입력"
+                    android:textColorHint="#5fffffff" />
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:text="등록"
                     android:id="@+id/comment_save_button"
-                    android:layout_weight="2" />
+                    android:layout_weight="2"
+                    android:background="@drawable/topbackground"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textSize="25sp"
+                    android:textColor="#ffffffff" />
             </LinearLayout>
 
             <ListView
@@ -102,23 +124,36 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="70dp"
+        android:gravity="center">
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:text="수정하기"
             android:id="@+id/article_edit_button"
             android:layout_weight="1"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"
+            android:background="@drawable/topbackground"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="25sp" />
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:text="삭제하기"
             android:id="@+id/article_delete_button"
             android:layout_weight="1"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"
+            android:background="@drawable/topbackground"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="25sp" />
     </LinearLayout>
 
 </LinearLayout>

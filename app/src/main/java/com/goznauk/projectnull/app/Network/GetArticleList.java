@@ -68,9 +68,9 @@ public class GetArticleList {
                             for (int i = 0; i < jsonArr.length(); i++) {
                                 JSONObject articleJson = jsonArr.getJSONObject(i);
                                 String articleId = articleJson.getString("_id");
-                                String title = articleJson.getString("title");
+                                String title = "제목 : " + articleJson.getString("title");
                                 String penName = articleJson.getString("penName");
-                                String contents = articleJson.getString("contents");
+                                String contents ="내용 : " + articleJson.getString("contents");
                                 String timeStamp = articleJson.getString("ts");
                                 String image = articleJson.getString("image");
 
@@ -100,7 +100,7 @@ public class GetArticleList {
                     }
 
 
-                    if(articles != null)
+                    if(articles != null && articles.size() != 0)
                         initialId = articles.get(articles.size()-1).getArticleId();
 
                     Log.i("test","initial ID : " + initialId);

@@ -2,6 +2,7 @@ package com.goznauk.projectnull.app.View;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.view.View;
 import android.widget.Button;
@@ -18,14 +19,11 @@ public class SettingLayout extends BaseLayout implements View.OnClickListener, M
     //view
     private TextView nickname;
     private TextView profileTextView;
-    private TextView showMyArticleTextView;
-    private TextView showMyCommentTextView;
     private TextView pushSettingTextView;
     private Button profileImageSettingButton;
-    private Button showMyArticleButton;
-    private Button showMyCommentButton;
     private Button pushSettingButton;
-    private ImageButton setNicknameButton;
+
+    private TextView myPhotoTextView;
 
     //typeface
     private Typeface SDCrayon;
@@ -35,7 +33,7 @@ public class SettingLayout extends BaseLayout implements View.OnClickListener, M
         public void onProfileImageSettingButtonClicked(Button button);
         public void onShowMyArticleButtonClicked(Button button);
         public void onShowMyCommentButtonClicked(Button button);
-        public void onPushSettingButtonClicked(Button button);
+        public void onSubscribeButtonClicked();
     }
 
     private Listener listener;
@@ -48,69 +46,77 @@ public class SettingLayout extends BaseLayout implements View.OnClickListener, M
         this.context = context;
 
         //view 찾아 변수에 넣기
-        nickname = (TextView)findViewById(R.id.nickname);
 
         profileTextView = (TextView)findViewById(R.id.profile_image_setting_textview);
-        showMyArticleTextView = (TextView)findViewById(R.id.show_my_article_textview);
-        showMyCommentTextView = (TextView)findViewById(R.id.show_my_comment_textview);
+//        showMyArticleTextView = (TextView)findViewById(R.id.show_my_article_textview);
+//        showMyCommentTextView = (TextView)findViewById(R.id.show_my_comment_textview);
         pushSettingTextView = (TextView)findViewById(R.id.push_setting_textview);
 
-        setNicknameButton = (ImageButton)findViewById(R.id.set_nickname_button);
         profileImageSettingButton = (Button)findViewById(R.id.profile_image_setting_button);
-        showMyArticleButton = (Button)findViewById(R.id.show_my_article_button);
-        showMyCommentButton = (Button)findViewById(R.id.show_my_comment_button);
+//        showMyArticleButton = (Button)findViewById(R.id.show_my_article_button);
+//        showMyCommentButton = (Button)findViewById(R.id.show_my_comment_button);
         pushSettingButton = (Button)findViewById(R.id.push_setting_button);
+        myPhotoTextView = (TextView)findViewById(R.id.my_profile_textview);
 
         //Button들 클릭이벤트리스너 붙이기
-        setNicknameButton.setOnClickListener(this);
+        //setNicknameButton.setOnClickListener(this);
         profileTextView.setOnClickListener(this);
-        showMyArticleButton.setOnClickListener(this);
-        showMyCommentButton.setOnClickListener(this);
+//        showMyArticleButton.setOnClickListener(this);
+//        showMyCommentButton.setOnClickListener(this);
         pushSettingButton.setOnClickListener(this);
+
+        SharedPreferences pref = context.getSharedPreferences("push", Context.MODE_PRIVATE);
+        String push = pref.getString("push","false");
+        if(push == "true") pushSettingButton.setText("멈추기");
+        else pushSettingButton.setText("받기");
+
 
 
         //폰트 지정
-        setTypeface(nickname, profileTextView, showMyArticleTextView, showMyCommentTextView,
-                   pushSettingTextView, profileImageSettingButton, showMyArticleButton,
-                   showMyCommentButton, pushSettingButton);
+        setTypeface(profileTextView, pushSettingTextView, profileImageSettingButton, pushSettingButton, myPhotoTextView);
     }
 
-    public void setTypeface(TextView nickname, TextView profileTextView,
-                            TextView showMyArticleTextView, TextView showMyCommentTextView,
+    public void setTypeface(TextView profileTextView,
                             TextView pushSettingTextView,
-                            Button profileImageSettingButton, Button showMyArticleButton,
-                            Button showMyCommentButton, Button pushSettingButton){
+                            Button profileImageSettingButton, Button pushSettingButton, TextView myPhotoTextView){
 
         TypefaceFactory typefaceFactory = TypefaceFactory.getTypefaceFactory(context);
         SDCrayon = typefaceFactory.getTypeface("SDCrayon");
-        nickname.setTypeface(SDCrayon);
         profileTextView.setTypeface(SDCrayon);
-        showMyArticleTextView.setTypeface(SDCrayon);
-        showMyCommentTextView.setTypeface(SDCrayon);
         pushSettingTextView.setTypeface(SDCrayon);
         profileImageSettingButton.setTypeface(SDCrayon);
-        showMyArticleButton.setTypeface(SDCrayon);
-        showMyCommentButton.setTypeface(SDCrayon);
         pushSettingButton.setTypeface(SDCrayon);
+        myPhotoTextView.setTypeface(SDCrayon);
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.set_nickname_button :
-                listener.onSetNicknameButtonClicked(setNicknameButton);
-                break;
             case R.id.profile_image_setting_button :
                 listener.onProfileImageSettingButtonClicked(profileImageSettingButton);
                 break;
-            case R.id.show_my_article_button :
-                listener.onShowMyArticleButtonClicked(showMyArticleButton);
-                break;
-            case R.id.show_my_comment_button :
-                listener.onShowMyCommentButtonClicked(showMyCommentButton);
-                break;
+//            case R.id.show_my_article_button :
+//                listener.onShowMyArticleButtonClicked(showMyArticleButton);
+//                break;
+//            case R.id.show_my_comment_button :
+//                listener.onShowMyCommentButtonClicked(showMyCommentButton);
+//                break;
             case R.id.push_setting_button :
-                listener.onPushSettingButtonClicked(pushSettingButton);
+                SharedPreferences pref = context.getSharedPreferences("push", Context.MODE_PRIVATE);
+                String push = pref.getString("push","false");
+
+                if(push == "true") {
+                    pushSettingButton.setText("멈추기");
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("push", "false");
+                    editor.commit();
+                }else{
+                    pushSettingButton.setText("받기");
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("push", "true");
+                    editor.commit();
+                }
+                listener.onSubscribeButtonClicked();
                 break;
         }
     }

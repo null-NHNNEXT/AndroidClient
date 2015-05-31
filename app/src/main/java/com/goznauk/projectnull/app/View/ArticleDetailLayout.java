@@ -25,7 +25,7 @@ public class ArticleDetailLayout extends BaseLayout implements ModelListener<Art
     private Article article;
 
     public interface Listener {
-        void onArticleEdit();
+        void onArticleEdit(String title, String content);
         void onDelete();
         void onArticleListRefresh();
         void onCommentSave(String articleId, Comment comment);
@@ -78,11 +78,11 @@ public class ArticleDetailLayout extends BaseLayout implements ModelListener<Art
         commentSaveButton.setOnClickListener(this);
 
 
-        setTypeface(title, writer, timeStamp, content, articleDeleteButton, articleEditButton);
+        setTypeface(title, writer, timeStamp, content, articleDeleteButton, articleEditButton, commentSaveButton);
 
     }
 
-    public void setTypeface(TextView title, TextView writer, TextView timeStamp, TextView content, Button articleDeleteButton, Button articleEditButton){
+    public void setTypeface(TextView title, TextView writer, TextView timeStamp, TextView content, Button articleDeleteButton, Button articleEditButton, Button commentSaveButton){
         TypefaceFactory typefaceFactory = TypefaceFactory.getTypefaceFactory(context);
         Typeface SDCrayon = typefaceFactory.getTypeface("SDCrayon");
 
@@ -92,6 +92,7 @@ public class ArticleDetailLayout extends BaseLayout implements ModelListener<Art
         content.setTypeface(SDCrayon);
         articleDeleteButton.setTypeface(SDCrayon);
         articleEditButton.setTypeface(SDCrayon);
+        commentSaveButton.setTypeface(SDCrayon);
     }
 
     @Override
@@ -103,7 +104,7 @@ public class ArticleDetailLayout extends BaseLayout implements ModelListener<Art
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.article_edit_button:
-                listener.onArticleEdit();
+                listener.onArticleEdit(title.getText().toString(), content.getText().toString());
                 break;
             case R.id.article_delete_button:
                 listener.onDelete();

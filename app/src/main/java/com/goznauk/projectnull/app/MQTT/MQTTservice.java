@@ -1,4 +1,4 @@
-package com.goznauk.projectnull.app;
+package com.goznauk.projectnull.app.MQTT;
 
 /**
  * Created by Henry on 2015. 5. 30..
@@ -27,6 +27,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
+
+import com.goznauk.projectnull.app.R;
 
 
 public class MQTTservice extends Service
@@ -237,7 +239,7 @@ public class MQTTservice extends Service
 
         private class MsgHandler extends Handler implements MqttCallback
         {
-            private final String HOST = "haru.io";
+            private final String HOST = "125.209.193.18";
             private final int PORT = 1883;
             private final String uri = "tcp://" + HOST + ":" + PORT;
             private final int MINTIMEOUT = 2000;
